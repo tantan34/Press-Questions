@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Press Questions</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: #EDE574;  
+            background: -webkit-linear-gradient(to right, #E1F5C4, #EDE574);  
+            background: linear-gradient(to right, #E1F5C4, #EDE574); 
+            font-family: Arial, sans-serif;
+        }
+
+        #formulario {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            background-color: rgba(255, 255, 255, 0.9); 
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 700px; 
+            width: 100%;
+            text-align: center;
+            margin-top: 10px; 
+            margin-bottom: 10px; 
+        }
+
+        img#logo {
+            width: 380px; 
+            height: auto;
+            margin-top: 10px; /* Espacio de un centímetro desde la parte superior */
+        }
+
+        input[type="number"],
+        select,
+        button {
+            margin-top: 10px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #000080; 
+            color: #fff; 
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4169e1; 
+        }
+
+        .respuesta {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Formulario de preguntas -->
+    <div id="formulario">
+        <!-- Primer logo -->
+        <img id="logo1" src="logo prees questionp.png" alt="Logo de Press Questions">
+        <!-- Segundo logo -->
+        <img id="logo2" src="https://drive.google.com/uc?id=1eHrAqEdWBOBNP7QtZsExeAfdTKcffnMt" alt="Segundo logo de Press Questions">
+        
+        <h1>Bienvenidos a Press Questions<span style="font-size: 14px;"></span></h1>
+        <p>Inicie con una operación manual. Deberá ingresar sus números que desee en ambas entradas,
+             seleccionar la operación deseada y luego hacer clic en "Start" para comenzar.</p>
+
+        <label for="numero1">Ingrese el primer número:</label>
+        <input type="number" id="numero1" name="numero1" required><br><br>
+        
+        <label for="numero2">Ingrese el segundo número:</label>
+        <input type="number" id="numero2" name="numero2" required><br><br>
+        
+        <label for="operacion">Operación:</label>
+        <select id="operacion" name="operacion">
+            <option value="sumar">Sumar</option>
+            <option value="restar">Restar</option>
+            <option value="multiplicar">Multiplicar</option>
+        </select><br><br>
+        
+        <button id="calcular-btn">Start</button>
+
+        <div id="respuesta" class="respuesta"></div>
+    </div>
+
+    <!-- Script para manejar la lógica de la página -->
+    <script>
+        var contador = 0;
+        var continuar = true;
+
+        document.getElementById('calcular-btn').addEventListener('click', function() {
+            var numero1 = parseFloat(document.getElementById('numero1').value);
+            var numero2 = parseFloat(document.getElementById('numero2').value);
+            var operacion = document.getElementById('operacion').value;
+
+            var resultado;
+            if (operacion === 'sumar') {
+                resultado = numero1 + numero2;
+            } else if (operacion === 'restar') {
+                resultado = numero1 - numero2;
+            } else if (operacion === 'multiplicar') {
+                resultado = numero1 * numero2;
+            }
+
+            var respuesta = prompt("¿Cuánto es " + numero1 + " " + (operacion === 'sumar' ? '+' : 
+                operacion === 'restar' ? '-' : '×') + " " + numero2 + "?");
+            while (respuesta !== null) {
+                if (parseFloat(respuesta) === parseFloat(resultado)) {
+                    contador++;
+                    if (contador < 5) {
+                        var opcion = confirm("¡Correcto! ¿Desea continuar?");
+                        if (opcion) {
+                            numero1 = Math.floor(Math.random() * 10);
+                            numero2 = Math.floor(Math.random() * 10);
+                            resultado = operacion === 'sumar' ? numero1 + numero2 : 
+                                operacion === 'restar' ? numero1 - numero2 : numero1 * numero2;
+                            document.getElementById('numero1').value = numero1;
+                            document.getElementById('numero2').value = numero2;
+                            respuesta = prompt("¿Cuánto es " + numero1 + " " + (operacion === 'sumar' ? '+' : 
+                                operacion === 'restar' ? '-' : '×') + " " + numero2 + "?");
+                        } else {
+                            continuar = false;
+                            break;
+                        }
+                    } else {
+                        contador = 0;
+                        var tipo_operacion = prompt("¡Correcto! ¿Desea cambiar el tipo de operación? (suma/resta/multiplicación) Escriba 'Salir' para finalizar.");
+                        if (tipo_operacion === 'Salir') {
+                            continuar = false;
+                            break;
+                        } else if (tipo_operacion === 'suma') {
+                            operacion = 'sumar';
+                        } else if (tipo_operacion === 'resta') {
+                            operacion = 'restar';
+                        } else if (tipo_operacion === 'multiplicación') {
+                            operacion = 'multiplicar';
+                        }
+                        numero1 = Math.floor(Math.random() * 10);
+                        numero2 = Math.floor(Math.random() * 10);
+                        resultado = operacion === 'sumar' ? numero1 + numero2 : 
+                            operacion === 'restar' ? numero1 - numero2 : numero1 * numero2;
+                        document.getElementById('numero1').value = numero1;
+                        document.getElementById('numero2').value = numero2;
+                        respuesta = prompt("¿Cuánto es " + numero1 + " " + (operacion === 'sumar' ? '+' : 
+                            operacion === 'restar' ? '-' : '×') + " " + numero2 + "?");
+                    }
+                } else {
+                    alert("Respuesta incorrecta. Por favor, inténtalo de nuevo.");
+                    respuesta = prompt("¿Cuánto es " + numero1 + " " + (operacion === 'sumar' ? '+' : 
+                        operacion === 'restar' ? '-' : '×') + " " + numero2 + "?");
+                }
+            }
+        });
+    </script>
+</body>
+</html>
